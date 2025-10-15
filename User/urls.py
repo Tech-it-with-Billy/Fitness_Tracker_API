@@ -1,10 +1,7 @@
-from django.urls import path, include
-from .views import UserProfileListCreateView
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-router.register(r'users', UserProfileListCreateView, basename='userprofile')
+from django.urls import path
+from .views import UserProfileListCreateAPIView, UserProfileRetrieveUpdateDestroyAPIView
 
 urlpatterns = [
-    path('api/', include(router.urls)), 
+    path('api/users/', UserProfileListCreateAPIView.as_view(), name='userprofile-list-create'),
+    path('api/users/<int:pk>/', UserProfileRetrieveUpdateDestroyAPIView.as_view(), name='userprofile-detail'),
 ]
