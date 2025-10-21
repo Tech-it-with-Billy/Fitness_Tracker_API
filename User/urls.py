@@ -1,12 +1,14 @@
-from django.urls import path
-from .views import UserProfileListCreateAPIView, UserProfileRetrieveUpdateDestroyAPIView, user_login, register, homepage, profile
+from django.urls import path, include
+from .views import register_user, login_user, logout_user, UserProfileViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'profiles', UserProfileViewSet, basename='UserProfileViewSet')
+
 
 urlpatterns = [
-    path('', homepage, name=''),
-    path('register', register, name= 'register'),
-    path('login', user_login, name= 'login'),
-    path('profile', profile, name= 'profile'),
-    path('api/users/', UserProfileListCreateAPIView.as_view(), name='userprofile-list-create'),
-    path('api/users/<int:pk>/', UserProfileRetrieveUpdateDestroyAPIView.as_view(), name='userprofile-detail'),
-
+    path('register/', register_user, name = 'register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('', include(router.urls)),
 ]
