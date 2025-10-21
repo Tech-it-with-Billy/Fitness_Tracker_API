@@ -17,6 +17,8 @@ class Activity(models.Model):
     distance = models.FloatField(null=True, blank=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return f'{self.activity_type} - {self.title} ({self.user.username})'
