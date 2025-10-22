@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Activity(models.Model):
     ACTIVITY_CHOICE = [
@@ -10,15 +11,13 @@ class Activity(models.Model):
         ('Gym', 'Gym'),
         ('Other', 'Other'),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
-    activity_type = models.CharField(max_length= 50, choices=ACTIVITY_CHOICE)
-    title = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities', null=True, blank=True)
+    activity_type = models.CharField(max_length= 50, choices=ACTIVITY_CHOICE, null=True, blank=True)
     duration = models.DurationField(help_text='Activity duration')
     distance = models.FloatField(null=True, blank=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
         return f'{self.activity_type} - {self.title} ({self.user.username})'
