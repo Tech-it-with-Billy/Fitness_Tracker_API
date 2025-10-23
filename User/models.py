@@ -13,7 +13,7 @@ class UserProfile(models.Model):
         ('Advanced', 'Advanced'),
     )
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, blank=True)
     height = models.FloatField(null=True, blank=True, help_text='Height(cm)')
     weight = models.FloatField(null=True, blank=True, help_text='Weight(kg)')

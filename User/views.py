@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import UserProfile
-from .serializers import RegisterSerializer, UserProfileSerializer
+from .serializers import RegisterSerializer, UserProfileSerializer, UserSerializer
 from .permissions import IsOwnerOrAdmin
 
 
@@ -13,8 +13,9 @@ from .permissions import IsOwnerOrAdmin
 def register_user(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'message': 'Registration successful'}, status=status.HTTP_200_OK)
+        user = serializer.save()
+        data = UserSerializer(user).data
+        return Response(data, {'message': 'Registration successful'}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
