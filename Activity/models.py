@@ -17,8 +17,11 @@ class Activity(models.Model):
     distance = models.FloatField(null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    calories_burned = models.FloatField(null=True, blank=True)
+    date = models.DateField(default=timezone.now)
     created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f'{self.activity_type} - {self.title} ({self.user.username})'
+        return f'{self.activity_type} - {self.date})'
     
