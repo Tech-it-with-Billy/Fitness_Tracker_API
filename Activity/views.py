@@ -1,14 +1,20 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Activity
 from .serializers import ActivitySerializer
 from .permissions import IsOwnerOrAdmin
-from django.db.models import Sum, F
+from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from datetime import datetime
+from rest_framework.pagination import PageNumberPagination
+
+class ActivityPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+
 
 class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
@@ -17,6 +23,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
     filterset_fields = ['activity_type', 'date']
     ordering_fields = ['date', 'duration', 'calories_burned', 'distance']
     search_fields = ['activity_type']
+    pagination_class = ActivityPagination
     
     def get_queryset(self):
         user = self.request.user
