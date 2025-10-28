@@ -27,8 +27,7 @@ def register_user(request):
         tokens = get_token_for_user(user)
         return Response({
             'message': 'Registration successful',
-            'user': UserSerializer(user).data,
-            'tokens': tokens
+            'user': UserSerializer(user).data
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -65,14 +64,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return UserProfile.objects.filter(user=user)
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user) 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def my_profile(request):
     try:
         profile = request.user.profile
-        serializer = UserProfileSerializer(profile)
-        return Response(serializer.data)
     except UserProfile.DoesNotExist:
-        return Response({'detail': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = UserProfileSerializer(profile)
+    return Response(serializer.data)

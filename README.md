@@ -6,7 +6,7 @@ A **Django REST Framework (DRF)** based backend API that allows users to manage 
 
 ## Features
 
-### 👤 User Management
+### User Management
 - Register new users  
 - Login and obtain authentication tokens (JWT)  
 - Manage user profiles (gender, height, weight, fitness level)
@@ -124,13 +124,45 @@ Make sure to:
 
 ### Example Requests (Postman)
 #### Register a User
-
+```bash
 POST /api/users/register/
 {
-  "username": "billy",
-  "email": "billy@fitness.com",
-  "password": "strongpassword123"
+    "username": "newuser03",
+    "email": "newuser03@fitness.com",
+    "password": "NewUserPassword03"
 }
+```
+#### Login User
+```bash
+POST /api/users/login/
+{
+    "username": "newuser001",
+    "password": "NewUserPassword001"
+}
+```
+#### View Current User Profile
+```bash
+GET /api/user/account/
+Authorization: Bearer <access_token>
+```
+#### Create Activity
+```bash
+POST /api/activity/
+Authorization: Bearer <access_token>
+{ 
+  "activity_type": "Running",
+  "duration": "00:45:00",
+  "distance": 5.2,
+  "start_time": "2025-10-28T07:00:00Z",
+  "end_time": "2025-10-28T07:45:00Z",
+  "calories_burned": 450
+}
+```
+#### Get All Activities
+```bash
+GET /api/activity/
+Authorization: Bearer <access_token>
+```
 ---
 
 ## Author

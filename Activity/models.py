@@ -18,10 +18,13 @@ class Activity(models.Model):
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
     calories_burned = models.FloatField(null=True, blank=True)
-    date = models.DateField(default=timezone.now)
+    date = models.DateField(default=timezone.localdate)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        ordering = ['-date', '-created_at']
+    
     def __str__(self):
-        return f'{self.activity_type} - {self.date})'
+        return f'{self.activity_type} - {self.date}'
     
